@@ -1,13 +1,10 @@
 // String → ASCII value
-
 console.log("A".charCodeAt(0)); // 65 -> 0 is index
 
 // ASCII → String
-
 console.log(String.fromCharCode(65)); // A
 
 // Encode
-
 function encode(strs) {
   let res = "";
 
@@ -21,7 +18,6 @@ function encode(strs) {
 console.log(encode(["a", "bc", "cde"])); // 1#a2#bc3#cde
 
 // Decode
-
 function decode(s) {
   let res = [];
   let i = 0;
