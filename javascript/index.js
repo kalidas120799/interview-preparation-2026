@@ -1,5 +1,4 @@
 // typeof
-
 console.log(typeof "123"); // string
 console.log(typeof 32); // number
 console.log(typeof true); // boolean
@@ -12,7 +11,6 @@ console.log(typeof new Date()); // object
 console.log(typeof new RegExp()); // object
 
 // Math
-
 console.log(Math.round(3.7)); // 4
 console.log(Math.floor(3.7)); // 3
 console.log(Math.ceil(3.3)); // 4
@@ -31,7 +29,6 @@ console.log(1994 % 10); // 4
 // Type Casting
 
 // Explicit
-
 console.log(Number("5")); // 5
 console.log(Number("sss")); // NaN
 
@@ -53,7 +50,6 @@ console.log(
 ); // true true
 
 // Implicit
-
 console.log("5" + 10); // "510"
 console.log(2 + true); // 3
 
@@ -61,7 +57,6 @@ console.log("10" == 10, "10" === 10); // true false
 console.log(0 == false, 0 === false); // true false
 
 // for
-
 for (var i = 0; i < 10; i++) {
   console.log(i);
 }
@@ -83,7 +78,6 @@ for (const [index, item] of [1, 3, 4, 5].entries()) {
 });
 
 // hoisting
-
 console.log("a :", a); // undefined
 
 var a = 2;
@@ -101,7 +95,6 @@ abc();
 console.log("a :", a); // 2
 
 // groupBy
-
 function groupBy(data, key) {
   return data.reduce((acc, item) => {
     const dataKey = item[key];
@@ -117,7 +110,6 @@ function groupBy(data, key) {
 }
 
 // Odd / Even
-
 function isOdd(n) {
   return n % 2 !== 0;
 }
@@ -146,10 +138,8 @@ console.log(isEven(3)); // false
 // }, 2000);
 
 // Callbacks
-
 /*
 A function passed as an argument to another function.
-
 The first function (often asynchronous) calls the callback
 function when it finishes its operation.
 */
@@ -168,7 +158,6 @@ fetchData(
 );
 
 // Promises
-
 function fetchData1(url) {
   return new Promise((resolve, reject) => {
     fetch(url)
@@ -187,7 +176,6 @@ fetchData1("https://jsonplaceholder.typicode.com/todos/1")
   });
 
 // Async / Await
-
 async function fetchData2(url) {
   try {
     const response = await fetch(url);
