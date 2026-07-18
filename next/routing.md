@@ -1,245 +1,122 @@
 ## Static Route
 
-A fixed URL that doesn't change.
+A static route is a fixed, unchanging URL created by a `page.js` file placed directly inside a folder named after the route path.
 
-```text
-app/
-├── page.js                 → /
-└── about/
-    └── page.js             → /about
 ```
-
-**Examples**
-
-* `/`
-* `/about`
+app/
+├── page.js          → /
+├── about/
+│   └── page.js       → /about
+```
 
 ---
 
 ## Nested Routing
 
-Creates child routes using nested folders.
+Nested routing is created by nesting folders inside one another, where each folder level adds a segment to the URL path.
 
-```text
-app/
-└── blog/
-    ├── page.js             → /blog
-    └── post/
-        └── page.js         → /blog/post
 ```
-
-**Examples**
-
-* `/blog`
-* `/blog/post`
+app/
+├── blog/
+│   ├── page.js        → /blog
+│   ├── post/
+│   │   └── page.js    → /blog/post
+```
 
 ---
 
 ## Dynamic Routing
 
-Creates dynamic URLs using folder names wrapped in square brackets.
+Dynamic routing lets a single folder match multiple URLs by using a bracketed segment name (e.g. `[id]`) that captures a variable value from the path.
 
-```text
+```
 app/
-└── products/
-    └── [id]/
-        └── page.js
+├── products/
+│   ├── [id]/
+│   │   └── page.js    → /products/1, /products/2
 ```
 
-**Examples**
-
-```text
-/products/1
-/products/2
-/products/100
-```
-
-Access parameter:
-
-```javascript
-export default function Product({ params }) {
-  return <h1>{params.id}</h1>;
-}
-```
+The `[id]` folder name in brackets creates a dynamic segment — any value in that position of the URL is captured as a route parameter.
 
 ---
 
 ## Nested Dynamic Routing
 
-Supports multiple dynamic parameters.
+Nested dynamic routing chains multiple dynamic segments together across folder levels, so each level captures its own route parameter.
 
-```text
+```
 app/
-└── shop/
-    └── [category]/
-        └── [productId]/
-            └── page.js
+├── shop/
+│   ├── [category]/
+│   │   ├── [productId]/
+│   │   │   └── page.js    → /shop/electronics/1001
 ```
 
-**Examples**
-
-```text
-/shop/electronics/1001
-/shop/books/25
-/shop/mobile/iphone16
-```
-
-Access parameters:
-
-```javascript
-export default function Product({ params }) {
-  const { category, productId } = params;
-}
-```
+Multiple dynamic segments can be nested, letting a single route template match many combinations of parameters (e.g. category + product ID).
 
 ---
 
 ## Route Groups
 
-Route Groups organize files without affecting the URL.
+Route groups use parentheses `(folderName)` to organize routes without affecting the URL path — the group name itself never appears in the route.
 
-Folders wrapped in parentheses **()** are ignored in the URL.
-
-```text
+```
 app/
 ├── (public)/
 │   ├── layout.js
-│   ├── page.js              → /
-│   └── about/
-│       └── page.js          → /about
+│   ├── page.js         → / (home)
+│   ├── about/
+│   │   └── page.js     → /about
 │
 ├── (auth)/
 │   ├── layout.js
 │   ├── login/
-│   │   └── page.js          → /login
-│   └── register/
-│       └── page.js          → /register
+│   │   └── page.js     → /login
+│   ├── register/
+│   │   └── page.js     → /register
 │
-└── (dashboard)/
-    ├── layout.js
-    ├── dashboard/
-    │   └── page.js          → /dashboard
-    └── settings/
-        └── page.js          → /settings
+├── (dashboard)/
+│   ├── layout.js
+│   ├── dashboard/
+│   │   └── page.js     → /dashboard
+│   ├── settings/
+│   │   └── page.js     → /settings
 ```
 
-**Purpose**
-
-* Separate layouts
-* Better project organization
-* URL remains unchanged
+Each group can have its own `layout.js`, which is useful for giving public pages, auth pages, and dashboard pages different layouts while keeping the URLs clean.
 
 ---
 
 ## Private Folders (`_folder`)
 
-Folders starting with `_` are private and cannot be accessed through a URL.
+Prefixing a folder name with an underscore (`_folder`) excludes it from routing entirely — Next.js won't treat it as a route segment.
 
-```text
+```
 app/
-└── _lib/
-    ├── utils.js
-    └── api.js
+├── _lib/               → ❌ NOT accessible as a route
+│   ├── utils.js
+│   ├── api.js
 ```
 
-**Accessible?**
-
-```text
-/_lib      ❌ No
-```
-
-**Use Cases**
-
-* Helper functions
-* API utilities
-* Constants
-* Database functions
+This is commonly used for utilities, helpers, or components colocated with routes that shouldn't be publicly reachable as URLs.
 
 ---
 
-## Optional Catch-All Routing (`[[...slug]]`)
+## Catch-All Route: `[slug]` / `[[...path]]`
 
-Matches zero or more URL segments.
-
-```text
+```
 app/
-└── repo/
-    └── [repo]/
-        └── [[...path]]/
-            └── page.js
+├── repo/
+│   ├── [repo]/
+│   │   ├── [[...path]]/
+│   │   │   └── page.js   → matches:
+│   │   │                    /repo/my-project
+│   │   │                    /repo/my-project/src
+│   │   │                    /repo/my-project/src/component
 ```
 
-**Matches**
-
-```text
-/repo/my-project
-/repo/my-project/src
-/repo/my-project/src/components
-/repo/my-project/src/components/button
-```
-
-Access parameters:
-
-```javascript
-export default function Repo({ params }) {
-  console.log(params.repo);
-  console.log(params.path);
-}
-```
-
-Example output:
-
-```javascript
-// /repo/my-project
-params = {
-  repo: "my-project",
-  path: undefined
-}
-
-// /repo/my-project/src/components
-params = {
-  repo: "my-project",
-  path: ["src", "components"]
-}
-```
-
----
-
-## Catch-All Routing (`[...slug]`)
-
-Matches one or more URL segments.
-
-```text
-app/
-└── docs/
-    └── [...slug]/
-        └── page.js
-```
-
-**Matches**
-
-```text
-/docs/react
-/docs/react/hooks
-/docs/react/hooks/useState
-```
-
-**Does NOT match**
-
-```text
-/docs
-```
-
-Example output:
-
-```javascript
-// /docs/react/hooks
-params = {
-  slug: ["react", "hooks"]
-}
-```
-
----
+- `[...path]` — a **required** catch-all segment; captures one or more path parts as an array.
+- `[[...path]]` — an **optional** catch-all segment (double brackets); also matches the base route with no extra path parts (e.g. `/repo/my-project` alone), in addition to any nested paths.
 
 ## Routing Summary
 
