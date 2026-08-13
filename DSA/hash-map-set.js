@@ -137,11 +137,6 @@ set.add(x); // insert
 set.delete(x); // remove
 new Set(arr); // remove duplicates
 
-// =========================
-// Example
-// Most Frequent Character
-// =========================
-
 function mostFrequentChar(str) {
   let map = new Map();
   let maxChar = "";

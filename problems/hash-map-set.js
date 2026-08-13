@@ -1,0 +1,100 @@
+function mostFrequentChar(str) {
+    let map = new Map();
+    let maxChar = "";
+    let maxCount = 0;
+
+    for (let ch of str) {
+        map.set(ch, (map.get(ch) || 0) + 1);
+
+        if (map.get(ch) > maxCount) {
+            maxCount = map.get(ch)
+            maxChar = ch
+        }
+    }
+
+    return maxChar;
+}
+
+console.log(mostFrequentChar("ababca")) // "a"
+
+function nonRepeated(str) {
+    let strArr = str.split("");
+    let map = new Map();
+
+    for (let i = 0; i < strArr.length; i++) {
+        map.set(strArr[i], (map.get(strArr[i]) || 0) + 1)
+
+        // if (str.indexOf(strArr[i]) === str.lastIndexOf(strArr[i])) return strArr[i] // c
+    }
+
+    for (let [key, value] of map) {
+        if (value === 1) return key
+    }
+}
+
+console.log(nonRepeated("aabbcdeeff")) // c
+
+const paragraph = `JavaScript is widely used for building modern web applications. 
+Developers use JavaScript to create dynamic user interfaces, interact with APIs, and manage application state. 
+React is a popular JavaScript library for frontend development, while Node.js allows JavaScript to run on the server side. 
+JavaScript also provides powerful features such as promises, async/await, arrays, objects, maps, and sets that help developers 
+write efficient and maintainable code.`
+
+function countWord(paragraph, target){
+    let arrPara=paragraph.split(" ");
+    let map=new Map();
+    for(let item of arrPara){
+        item = item.replace(/[^a-zA-Z]/g, "")
+        if(target.includes(item)){
+            map.set(item,(map.get(item) || 0)+1)
+        }
+    }
+    console.log(map) // JavaScript -5, React -1, arrays -1, developers -1
+}
+
+countWord(paragraph, ["JavaScript", "React", "developers", "arrays"])
+
+// https://leetcode.com/problems/maximum-number-of-balloons
+function maxNumberOfWord(str, word) {
+    if (str.length < word.length) return 0;
+
+    const wordMap = new Map();
+    const strMap = new Map();
+
+    for (let item of word) {
+        wordMap.set(item, (wordMap.get(item) || 0) + 1);
+    }
+
+    for (let item of str) {
+        strMap.set(item, (strMap.get(item) || 0) + 1);
+    }
+
+    let count = Infinity;
+
+    for (let [key, value] of wordMap) {
+        count = Math.min(count, (strMap.get(key) / value));
+    }
+
+    return count;
+}
+
+console.log(maxNumberOfWord("nlaebolko", "balloon")) // 1
+console.log(maxNumberOfWord("loonbalxballpoon", "balloon")) // 2
+console.log(maxNumberOfWord("code", "balloon")) // 0
+console.log(maxNumberOfWord("aaabbbccc", "abc")) // 2
+
+function isAnagram(str1,str2){
+    let strMap=new Map();
+    for(let item of str1){
+        strMap.set(item,((strMap.get(item) || 0)+1))
+    }
+
+    for(let item of str2){
+        if(!strMap.has(item) || strMap.get(item) == 0) return false
+        strMap.set(item,(strMap.get(item) -1))
+    }
+    return true
+}
+
+console.log(isAnagram("anagram","nagaram")) // true
+console.log(isAnagram("aab","abb")) // false
