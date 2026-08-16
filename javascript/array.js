@@ -1,3 +1,8 @@
+// add item in 1st
+let test=[1,2,3,4]
+test.unshift(0)
+console.log(test) // [0,1,2,3,4]
+
 // swap array
 let arr = [1, 0, 4, 5, 4, 3, -5];
 // using temp

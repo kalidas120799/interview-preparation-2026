@@ -70,6 +70,9 @@ map.set(x, (map.get(x) || 0) + 1); // frequency
 map.has(x); // check exist
 map.get(x); // fetch value
 
+let arrmap = [...map]; // Map(3) { 't' => 1, 'r' => 1, 'e' => 2 } => [ [ 't', 1 ], [ 'r', 1 ], [ 'e', 2 ] ]
+const sortMap = arrmap.sort((a, b) => b[1] - a[1]); // [ [ 'e', 2 ], [ 't', 1 ], [ 'r', 1 ] ]
+
 // =========================
 // SET (JS) - CHEAT SHEET
 // =========================
@@ -136,22 +139,3 @@ set.has(x); // check duplicate
 set.add(x); // insert
 set.delete(x); // remove
 new Set(arr); // remove duplicates
-
-function mostFrequentChar(str) {
-  let map = new Map();
-  let maxChar = "";
-  let maxCount = 0;
-
-  for (let ch of str) {
-    map.set(ch, (map.get(ch) || 0) + 1);
-
-    if (map.get(ch) > maxCount) {
-      maxCount = map.get(ch);
-      maxChar = ch;
-    }
-  }
-
-  return maxChar;
-}
-
-console.log(mostFrequentChar("abacba")); // "a"

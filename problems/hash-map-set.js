@@ -40,13 +40,13 @@ React is a popular JavaScript library for frontend development, while Node.js al
 JavaScript also provides powerful features such as promises, async/await, arrays, objects, maps, and sets that help developers 
 write efficient and maintainable code.`
 
-function countWord(paragraph, target){
-    let arrPara=paragraph.split(" ");
-    let map=new Map();
-    for(let item of arrPara){
+function countWord(paragraph, target) {
+    let arrPara = paragraph.split(" ");
+    let map = new Map();
+    for (let item of arrPara) {
         item = item.replace(/[^a-zA-Z]/g, "")
-        if(target.includes(item)){
-            map.set(item,(map.get(item) || 0)+1)
+        if (target.includes(item)) {
+            map.set(item, (map.get(item) || 0) + 1)
         }
     }
     console.log(map) // JavaScript -5, React -1, arrays -1, developers -1
@@ -83,18 +83,41 @@ console.log(maxNumberOfWord("loonbalxballpoon", "balloon")) // 2
 console.log(maxNumberOfWord("code", "balloon")) // 0
 console.log(maxNumberOfWord("aaabbbccc", "abc")) // 2
 
-function isAnagram(str1,str2){
-    let strMap=new Map();
-    for(let item of str1){
-        strMap.set(item,((strMap.get(item) || 0)+1))
+function isAnagram(str1, str2) {
+    if (str1.length !== str2.length) return false;
+    const map = new Map();
+
+    for (let item of str1) {
+        map.set(item, (map.get(item) || 0) + 1);
     }
 
-    for(let item of str2){
-        if(!strMap.has(item) || strMap.get(item) == 0) return false
-        strMap.set(item,(strMap.get(item) -1))
+    for (let item of str2) {
+        map.set(item, map.get(item) - 1);
+        if (map.get(item) < 0) return false;
     }
-    return true
+
+    return true;
 }
 
-console.log(isAnagram("anagram","nagaram")) // true
-console.log(isAnagram("aab","abb")) // false
+console.log(isAnagram("anagram", "nagaram")) // true
+console.log(isAnagram("aab", "abb")) // false
+
+function frequencySort(str) {
+    const strArr = str.split("");
+    const map = new Map();
+    for (let i = 0; i < strArr.length; i++) {
+        map.set(strArr[i], (map.get(strArr[i]) || 0) + 1)
+    }
+
+    let arrmap = [...map];
+    const sortMap = arrmap.sort((a, b) => b[1] - a[1]);
+
+    let output = "";
+    for (let item of sortMap) {
+        output += item[0].repeat(item[1]);
+    }
+    return output;
+}
+
+console.log(frequencySort("tree")) // eetr
+console.log(frequencySort("cccaaa")) // cccaaa or aaaccc; cacaca (not)
