@@ -292,4 +292,83 @@ new Worker("./heavyTask.js");
 ✅ Avoid Heavy Loops
 ```
 
----
+### Where does browser rendering fit into the event loop?
+Browsers perform rendering at appropriate points between JavaScript work, but the exact scheduling is browser-dependent. Long-running JavaScript can block rendering and make the UI appear frozen.
+
+```js
+requestAnimationFrame(() => console.log("before paint opportunity"));
+```
+
+### How do you solve event-loop output questions?
+First identify synchronous code, then Promise/microtask callbacks, then task callbacks such as timers, while considering environment-specific APIs. Trace the queues rather than guessing based on source order.
+
+```js
+console.log(1);
+Promise.resolve().then(() => console.log(2));
+setTimeout(() => console.log(3), 0);
+console.log(4);
+// 1 4 2 3
+```
+
+## Event-loop phases
+```js
+Synchronous
+↓
+process.nextTick()
+↓
+Microtasks
+  ├── Promise.then()
+  └── queueMicrotask()
+↓
+Macrotasks / Event Loop phases
+  ├── Timers → setTimeout/setInterval
+  ├── Poll → I/O
+  ├── Check → setImmediate
+  └── Close callbacks
+↓
+Microtasks
+↓
+Repeat
+```
+### Example
+```js
+console.log("1. Synchronous");
+
+process.nextTick(() => {
+  console.log("2. process.nextTick");
+});
+
+Promise.resolve().then(() => {
+  console.log("3. Promise.then");
+});
+
+queueMicrotask(() => {
+  console.log("4. queueMicrotask");
+});
+
+setTimeout(() => {
+  console.log("5. setTimeout - Timers");
+
+  Promise.resolve().then(() => {
+    console.log("6. Microtask after setTimeout");
+  });
+}, 0);
+
+setImmediate(() => {
+  console.log("7. setImmediate - Check");
+});
+
+const fs = require("fs");
+
+fs.readFile(__filename, () => {
+  console.log("8. I/O - Poll");
+
+  setTimeout(() => {
+    console.log("9. setTimeout inside I/O - Timers");
+  }, 0);
+
+  setImmediate(() => {
+    console.log("10. setImmediate inside I/O - Check");
+  });
+});
+```

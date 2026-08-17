@@ -83,6 +83,7 @@ console.log(maxNumberOfWord("loonbalxballpoon", "balloon")) // 2
 console.log(maxNumberOfWord("code", "balloon")) // 0
 console.log(maxNumberOfWord("aaabbbccc", "abc")) // 2
 
+// https://leetcode.com/problems/valid-anagram
 function isAnagram(str1, str2) {
     if (str1.length !== str2.length) return false;
     const map = new Map();
@@ -102,6 +103,7 @@ function isAnagram(str1, str2) {
 console.log(isAnagram("anagram", "nagaram")) // true
 console.log(isAnagram("aab", "abb")) // false
 
+// https://leetcode.com/problems/sort-characters-by-frequency
 function frequencySort(str) {
     const strArr = str.split("");
     const map = new Map();
@@ -121,3 +123,23 @@ function frequencySort(str) {
 
 console.log(frequencySort("tree")) // eetr
 console.log(frequencySort("cccaaa")) // cccaaa or aaaccc; cacaca (not)
+
+// https://leetcode.com/problems/group-anagrams
+function groupByAnagram(arr) {
+    const map = new Map();
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let item = arr[i].split("");
+        const sortedItem = item.sort().join("");
+        let data = map.get(sortedItem) || [];
+        data.push(arr[i])
+        map.set(sortedItem, data)
+    }
+    map.forEach((value, key) => {
+        result.push(value)
+    })
+    return result
+}
+
+console.log(groupByAnagram(["eat", "tea", "tan", "ate", "nat", "bat"])) // [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]

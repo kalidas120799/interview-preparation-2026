@@ -90,6 +90,7 @@ function maximumBags(capacity, rocks, additionalRocks) {
 
 console.log(maximumBags([5, 2, 3, 4, 5, 3], [3, 1, 2, 4, 3, 2], 3)) // 4
 
+// https://leetcode.com/problems/next-greater-element-i/
 function nextGreaterElement(num1, num2) {
     const ans = [];
     for (let i = 0; i < num1.length; i++) {
