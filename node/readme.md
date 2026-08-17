@@ -1,8 +1,6 @@
 # Node.js Complete Interview Q&A
 
----
-
-# 1. Node.js Fundamentals
+# Node.js Fundamentals
 
 ### What is Node.js?
 
@@ -141,7 +139,7 @@ console.log(process.pid);
 
 ---
 
-# 2. Node.js Runtime, Event Loop & Internals
+# Node.js Runtime, Event Loop & Internals
 
 ### What is libuv?
 
@@ -252,7 +250,7 @@ monitor event-loop delay -> profile CPU
 
 ---
 
-# 3. Modules
+# Modules
 
 ### What is a module in Node.js?
 
@@ -346,7 +344,7 @@ path.join(__dirname, 'config.json');
 
 ---
 
-# 4. NPM & Package Management
+# NPM & Package Management
 
 ### What is npm?
 
@@ -430,7 +428,7 @@ npm audit -> review -> update -> test
 
 ---
 
-# 5. File System & Core Modules
+# File System & Core Modules
 
 ### What is the fs module?
 
@@ -515,7 +513,7 @@ const u = new URL('https://example.com?a=1');
 
 ---
 
-# 6. Buffers & Binary Data
+# Buffers & Binary Data
 
 ### What is a Buffer?
 
@@ -543,128 +541,7 @@ fs.createReadStream('image.png').on('data', chunk => console.log(chunk.length));
 
 ---
 
-# 7. Streams 
-
-### What is a stream?
-
-A stream processes data incrementally instead of requiring the whole dataset in memory. Streams are especially useful for large files, network data, and transformations.
-
-```js
-fs.createReadStream('large.log');
-```
-
-### What are the types of streams?
-
-The main types are Readable, Writable, Duplex, and Transform. Readable produces data, Writable consumes it, Duplex supports both directions, and Transform changes data as it passes through.
-
-```js
-Readable -> Transform -> Writable
-```
-
-### Readable vs Writable vs Duplex vs Transform?
-
-Readable streams produce data, Writable streams consume data, Duplex streams can both read and write, and Transform streams are Duplex streams that transform the data between input and output.
-
-```js
-input -> Transform -> output
-```
-
-### What is backpressure?
-
-Backpressure happens when a data producer is faster than the consumer can process. Streams manage this by controlling how much data is buffered and signaling when the producer should slow down.
-
-```js
-fast producer -> buffer -> slow consumer
-```
-
-### How does Node.js handle backpressure?
-
-Writable streams return a boolean from `write()` to indicate whether more data should be written immediately. Using `pipe()` or `pipeline()` helps connect streams while respecting flow control and errors.
-
-```js
-readable.pipe(writable);
-```
-
-### What is pipe()?
-
-`pipe()` connects a readable stream to a writable stream and manages data flow between them. It is a simple way to build streaming pipelines.
-
-```js
-readable.pipe(writable);
-```
-
-### What is pipeline()?
-
-`pipeline()` connects streams while providing stronger error and completion handling than manually chaining `pipe()` calls. It is preferred for many production pipelines.
-
-```js
-await pipeline(readable, transform, writable);
-```
-
-### How do streams improve performance?
-
-Streams reduce peak memory usage and allow processing to start before the entire payload is available. They are useful for large files and long-running network transfers.
-
-```js
-10 GB file -> chunks -> process
-```
-
-### How would you process a 10 GB file without loading it into memory?
-
-Use a readable stream and process the file chunk by chunk. If transformation is required, place a Transform stream between the readable and writable streams.
-
-```js
-createReadStream('10gb.dat').pipe(createWriteStream('copy.dat'));
-```
-
----
-
-# 8. EventEmitter
-
-### What is EventEmitter?
-
-EventEmitter is Node.js's built-in event mechanism for registering listeners and emitting named events. Many Node.js APIs use this pattern.
-
-```js
-emitter.on('done', handler);
-```
-
-### How do on(), once(), emit(), and off() work?
-
-`on()` registers a persistent listener, `once()` runs a listener once, `emit()` triggers an event, and `off()` removes a listener. Managing listeners is important for correctness and memory usage.
-
-```js
-emitter.once('ready', init);
-```
-
-### How do you create a custom event?
-
-Create an EventEmitter, register a listener for an event name, and call `emit()` when the event occurs.
-
-```js
-emitter.on('order', save);
-emitter.emit('order', data);
-```
-
-### How can EventEmitter cause memory leaks?
-
-If listeners are repeatedly added and never removed, objects captured by those listeners may remain reachable. Use `off()`, lifecycle cleanup, and listener limits where appropriate.
-
-```js
-emitter.off('event', handler);
-```
-
-### Why is the error event special?
-
-An EventEmitter emitting an `error` event without a listener can cause the Node.js process to terminate. Always handle error events for emitters that can produce them.
-
-```js
-emitter.on('error', console.error);
-```
-
----
-
-# 9. HTTP & HTTPS
+# HTTP & HTTPS
 
 ### What is HTTP?
 
@@ -763,7 +640,7 @@ http.Agent({ keepAlive: true })
 
 ---
 
-# 10. REST APIs & API Styles
+# REST APIs & API Styles
 
 ### What is REST?
 
@@ -883,293 +760,7 @@ An operation is idempotent when repeating the same request produces the same int
 Idempotency-Key: abc123
 ```
 
----
-
-# 11. Express.js & Middleware
-
-### What is Express.js?
-
-Express is a lightweight Node.js web framework built around routing and middleware. It simplifies HTTP API development while still exposing Node's underlying request and response objects.
-
-```js
-app.get('/health', (req,res)=>res.json({ok:true}));
-```
-
-### Why use Express instead of the Node http module?
-
-The `http` module is low-level, while Express provides routing, middleware composition, request handling helpers, and a familiar application structure. Express reduces boilerplate for typical APIs.
-
-```js
-http -> low level
-Express -> routing + middleware
-```
-
-### What is Express middleware?
-
-Middleware is a function that can inspect or modify the request/response, end the request, or call `next()` to continue. Middleware is executed in the order it is registered.
-
-```js
-app.use((req,res,next)=>{ next(); });
-```
-
-### What happens internally when a request reaches Express?
-
-Node's HTTP server receives the request and passes it into the Express application. Express walks its middleware/router stack in order until a matching handler sends a response or an error is passed to error middleware.
-
-```js
-HTTP -> Express -> middleware -> router -> handler -> response
-```
-
-### Application-level vs router-level middleware?
-
-Application middleware is attached to the Express application and can affect many routes. Router middleware is attached to a specific router and is useful for grouping behavior by feature.
-
-```js
-app.use(auth)
-router.use(validate)
-```
-
-### What is built-in middleware?
-
-Express provides built-in middleware such as `express.json()` for parsing JSON request bodies and `express.urlencoded()` for URL-encoded bodies.
-
-```js
-app.use(express.json());
-```
-
-### What is custom middleware?
-
-Custom middleware is application-specific logic such as authentication, validation, request IDs, or logging. It follows the `(req, res, next)` pattern unless it ends the response.
-
-```js
-function auth(req,res,next){ next(); }
-```
-
-### What is third-party middleware?
-
-Third-party middleware is installed from npm and integrated into Express. Examples include security, logging, compression, CORS, and request parsing packages.
-
-```js
-app.use(cors());
-```
-
-### How do you create centralized error handling?
-
-Register an Express error-handling middleware after routes. It receives `(err, req, res, next)`, logs the error appropriately, and sends a consistent safe response.
-
-```js
-app.use((err,req,res,next)=>res.status(500).json({error:'Internal error'}));
-```
-
-### How do you handle async errors in Express?
-
-Ensure rejected promises reach the centralized error handler, either through framework support or an async wrapper depending on the Express version/pattern used. Do not leave rejected requests unhandled.
-
-```js
-const wrap = fn => (req,res,next)=>Promise.resolve(fn(req,res,next)).catch(next);
-```
-
-### How do you implement authentication middleware?
-
-Extract credentials such as a session cookie or bearer token, verify them, and attach the authenticated identity to the request. Reject missing or invalid credentials before protected handlers execute.
-
-```js
-Authorization: Bearer <token>
-```
-
-### How do you implement authorization?
-
-Authentication answers who the user is; authorization answers what that user may do. Use roles, permissions, ownership checks, or policies after authentication.
-
-```js
-if (!user.permissions.includes('orders:read')) return res.sendStatus(403);
-```
-
-### How do you validate request body/query parameters?
-
-Validate input at the API boundary using a schema validation library or explicit checks. Reject invalid input with a clear 4xx response before business logic or database access.
-
-```js
-schema.parse(req.body);
-```
-
-### How do you handle file uploads?
-
-Accept multipart data with an appropriate parser, enforce size/type limits, validate the content, and store it safely. For large files, streaming or direct object-storage uploads can avoid unnecessary memory usage.
-
-```js
-multipart -> validate -> stream -> S3
-```
-
-### How do you implement API rate limiting?
-
-Rate limiting restricts requests per client or identity within a time window. A shared store such as Redis is useful when multiple Node.js instances must enforce one distributed limit.
-
-```js
-Redis counter -> limit -> 429
-```
-
-### How do you implement compression?
-
-Compression middleware can reduce response size for compressible content. It trades CPU for lower network bandwidth and should be configured with sensible thresholds and exclusions.
-
-```js
-app.use(compression());
-```
-
----
-
-# 12. Authentication & Authorization
-
-### What is session-based authentication?
-
-The server stores session state and the client sends a session identifier, commonly in a secure cookie. Sessions can be revoked centrally but require shared/session storage when the app is distributed.
-
-```js
-Cookie: sessionId=abc
-```
-
-### What is JWT authentication?
-
-A JWT carries signed claims that the server can verify without storing the full session state. Keep tokens short-lived and protect refresh-token handling carefully.
-
-```js
-Authorization: Bearer <JWT>
-```
-
-### Access token vs refresh token?
-
-An access token is short-lived and used for API authorization. A refresh token is longer-lived and is used to obtain new access tokens, so it needs stronger storage and rotation controls.
-
-```js
-access: 15m
-refresh: longer-lived
-```
-
-### What is OAuth 2.0?
-
-OAuth 2.0 is an authorization framework for delegated access. It allows a client to obtain access tokens to call protected resources without sharing the user's password with the client.
-
-```js
-Client -> Authorization Server -> Access Token
-```
-
-### What is OpenID Connect?
-
-OpenID Connect adds an identity layer on top of OAuth 2.0. It provides an ID token and standardized user identity information.
-
-```js
-OIDC = OAuth 2.0 + identity
-```
-
-### What is RBAC?
-
-Role-Based Access Control assigns permissions through roles such as admin, manager, or user. It simplifies authorization management when roles map cleanly to business permissions.
-
-```js
-admin -> users:delete
-```
-
----
-
-# 13. Databases
-
-### How does Node.js connect to a database?
-
-Node.js uses database drivers, ORMs, or query builders to communicate with databases. Production applications commonly use connection pooling and parameterized queries.
-
-```js
-pool.query('SELECT ... WHERE id = $1', [id]);
-```
-
-### What is connection pooling?
-
-A pool reuses database connections instead of opening a new connection for every request. It reduces connection setup overhead and limits database concurrency.
-
-```js
-Request -> pool -> DB connection -> release
-```
-
-### What is a transaction?
-
-A transaction groups related database operations into one logical unit. It should preserve the required atomicity and consistency guarantees when multiple changes must succeed or fail together.
-
-```js
-BEGIN -> UPDATE -> UPDATE -> COMMIT
-```
-
-### What are prepared/parameterized statements?
-
-They separate SQL structure from user-supplied values and help prevent SQL injection. They can also allow database drivers to reuse execution plans depending on the database.
-
-```js
-SELECT * FROM users WHERE id = $1
-```
-
-### What is the N+1 query problem?
-
-N+1 occurs when one query loads a list and then an additional query is executed for each item. Batch loading, joins, or eager loading can reduce excessive round trips.
-
-```js
-1 query + 100 item queries = N+1
-```
-
-### How do you optimize database queries?
-
-Use appropriate indexes, select only needed fields, paginate large results, inspect query plans, and reduce unnecessary round trips. Measure database latency before and after changes.
-
-```js
-EXPLAIN SELECT ...
-```
-
----
-
-# 14. Caching & Redis
-
-### What is caching?
-
-Caching stores frequently used data so repeated requests can avoid expensive computation or database/external API calls. Cache design must define TTL and invalidation behavior.
-
-```js
-GET user -> Redis -> DB only on miss
-```
-
-### What is Redis?
-
-Redis is an in-memory data store commonly used for caching, sessions, rate limiting, queues, and distributed coordination. It supports fast key-value operations and additional data structures.
-
-```js
-SET user:1 '{...}' EX 60
-```
-
-### What is cache-aside?
-
-The application first checks the cache and reads from the database on a miss, then stores the result in the cache. This is simple but requires a strategy for invalidation and stale data.
-
-```js
-cache hit -> return
-cache miss -> DB -> set cache
-```
-
-### What is cache stampede?
-
-A cache stampede happens when many requests miss or simultaneously refresh the same key, causing a burst of backend load. Techniques include locking, request coalescing, jittered TTLs, and stale-while-revalidate.
-
-```js
-many misses -> DB overload
-```
-
-### How can Redis be used for rate limiting?
-
-Redis can store counters with expiry or use Lua scripts for atomic rate-limiting logic. A shared Redis store lets multiple Node.js instances enforce the same limit.
-
-```js
-INCR api:user:1 + EXPIRE
-```
-
----
-
-# 15. Error Handling
+# Error Handling
 
 ### How do you handle synchronous errors?
 
@@ -1214,7 +805,7 @@ SIGTERM -> stop server -> drain -> close DB -> exit
 
 ---
 
-# 16. Security 
+# Security 
 
 ### What is SQL injection?
 
@@ -1314,168 +905,7 @@ process.env.DB_PASSWORD
 
 ---
 
-# 17. Process & Environment
-
-### What is process.env?
-
-`process.env` exposes environment variables to the current process. It is commonly used for configuration, but values are strings and secrets should be managed securely.
-
-```js
-const port = Number(process.env.PORT || 3000);
-```
-
-### What is process.argv?
-
-`process.argv` contains command-line arguments passed to the Node.js process. It can be used for CLI applications and scripts.
-
-```js
-console.log(process.argv.slice(2));
-```
-
-### What are stdin, stdout, and stderr?
-
-They are standard input, standard output, and standard error streams. They are useful for CLI programs, piping data, and process orchestration.
-
-```js
-process.stdout.write('hello\n');
-```
-
-### What are process signals?
-
-Signals such as SIGTERM and SIGINT communicate lifecycle events to a process. Node.js applications can listen for them to perform graceful shutdown.
-
-```js
-process.on('SIGTERM', shutdown);
-```
-
-### What is process.cwd()?
-
-`process.cwd()` returns the current working directory of the Node.js process. It can differ from the directory containing the current module.
-
-```js
-console.log(process.cwd());
-```
-
----
-
-# 18. Child Processes
-
-### What is child_process?
-
-The `child_process` module lets Node.js create and communicate with OS processes. It is useful for external commands and workloads that should be isolated from the main process.
-
-```js
-const { spawn } = require('node:child_process');
-```
-
-### What is spawn()?
-
-`spawn()` starts a process and exposes its stdout/stderr as streams. It is useful when the child may produce a large or continuous amount of output.
-
-```js
-spawn('node', ['worker.js']);
-```
-
-### What is exec()?
-
-`exec()` runs a command through a shell and collects its output in memory through a callback. It is convenient for short outputs but requires careful handling of shell injection risks.
-
-```js
-exec('node -v', callback);
-```
-
-### What is fork()?
-
-`fork()` starts another Node.js process running a specified JavaScript module and provides an IPC channel. It is useful when you want separate Node processes that can communicate.
-
-```js
-const child = fork('./worker.js');
-```
-
-### spawn vs exec vs fork?
-
-`spawn` is stream-oriented and suitable for long-running output, `exec` is convenient for shell commands with bounded output, and `fork` is specialized for launching another Node.js module with IPC.
-
-```js
-spawn -> streams
-exec -> shell + buffered output
-fork -> Node + IPC
-```
-
----
-
-# 19. Worker Threads & Cluster
-
-### What are Worker Threads?
-
-Worker Threads let Node.js run JavaScript on separate threads, which is useful for CPU-intensive JavaScript that would otherwise block the event loop. They can communicate using messages and transferable/shared data.
-
-```js
-new Worker('./cpu.js');
-```
-
-### How do you handle CPU-intensive operations?
-
-Do not run long CPU work on the main event-loop thread. Use worker threads, child processes, background jobs, or a separate service depending on isolation and scaling needs.
-
-```js
-API -> Worker -> result
-```
-
-### Cluster vs Worker Threads?
-
-Cluster creates multiple Node.js processes, giving process-level isolation and separate heaps. Worker Threads create threads inside a process and are mainly useful for CPU-bound JavaScript with lower process-level overhead.
-
-```js
-Cluster -> processes
-Workers -> threads
-```
-
-### Worker Threads vs Child Processes?
-
-Worker Threads share a process and can use transferable/shared memory, making them efficient for CPU-bound JavaScript. Child processes provide stronger isolation and can run arbitrary executables.
-
-```js
-Worker -> CPU JS
-Child -> isolated process
-```
-
-### What is horizontal scaling?
-
-Horizontal scaling adds more application instances and distributes traffic between them. It is common for stateless Node.js APIs behind a load balancer.
-
-```js
-Load balancer -> Node 1/2/3
-```
-
-### What is vertical scaling?
-
-Vertical scaling gives a single instance more CPU or memory. It can be simple but has hardware limits and does not provide the same redundancy as multiple instances.
-
-```js
-2 CPU -> 8 CPU
-```
-
-### Horizontal vs vertical scaling?
-
-Horizontal scaling improves capacity and availability by adding instances, while vertical scaling increases resources on one instance. Production systems often combine both based on bottlenecks and cost.
-
-```js
-horizontal -> more nodes
-vertical -> bigger node
-```
-
-### What is cluster?
-
-The cluster module can run multiple Node.js worker processes, often allowing traffic to be handled across CPU cores. Modern deployments may also use containers/process managers instead.
-
-```js
-cluster.fork();
-```
-
----
-
-# 20. Performance & Optimization 
+# Performance & Optimization 
 
 ### How do you improve Node.js API performance?
 
@@ -1575,7 +1005,7 @@ measure first
 
 ---
 
-# 21. Memory Management
+# Memory Management
 
 ### How does memory management work in Node.js?
 
@@ -1627,7 +1057,7 @@ node --inspect app.js
 
 ---
 
-# 22. Logging & Monitoring
+# Logging & Monitoring
 
 ### What is structured logging?
 
@@ -1680,7 +1110,7 @@ Node -> OTEL -> collector
 
 ---
 
-# 23. Testing Node.js
+# Testing Node.js
 
 ### What is unit testing?
 
@@ -1732,7 +1162,7 @@ npm test -- --coverage
 
 ---
 
-# 24. API Reliability
+# API Reliability
 
 ### What is a timeout?
 
@@ -1776,7 +1206,7 @@ recommendations down -> core API still works
 
 ---
 
-# 25. WebSockets & Real-Time
+# WebSockets & Real-Time
 
 ### What is a WebSocket?
 
@@ -1812,7 +1242,7 @@ LB -> Node 1/2 + Redis adapter
 
 ---
 
-# 26. Queues & Background Jobs
+# Queues & Background Jobs
 
 ### Why use background jobs?
 
@@ -1856,7 +1286,7 @@ queue.add('email', data);
 
 ---
 
-# 27. File Uploads
+# File Uploads
 
 ### How do you handle multipart file uploads?
 
@@ -1884,7 +1314,7 @@ validate -> random filename -> object storage
 
 ---
 
-# 28. Microservices
+# Microservices
 
 ### What is a microservice?
 
@@ -1929,7 +1359,7 @@ Order -> Payment -> Inventory -> compensate
 
 ---
 
-# 29. Node.js Architecture & Design
+# Node.js Architecture & Design
 
 ### What is MVC in Node.js?
 
@@ -1981,7 +1411,7 @@ Service depends on interface/contract
 
 ---
 
-# 30. Deployment & Production
+# Deployment & Production
 
 ### How do you productionize a Node.js application?
 
@@ -2025,7 +1455,7 @@ pm2 start app.js -i max
 
 ---
 
-# 31. Node.js + AWS
+# Node.js + AWS
 
 ### What is AWS Lambda with Node.js?
 
@@ -2069,7 +1499,7 @@ Docker -> ECS/EKS
 
 ---
 
-# 32. Advanced Node.js Internals
+# Advanced Node.js Internals
 
 ### What is V8 garbage collection?
 
@@ -2121,7 +1551,7 @@ SharedArrayBuffer + Atomics
 
 ---
 
-# 33. Concurrency Patterns
+# Concurrency Patterns
 
 ### What are async queues?
 
@@ -2157,7 +1587,7 @@ Browser -> Service Worker -> Cache
 
 ---
 
-# 34. API Reliability & Security Scenarios
+# API Reliability & Security Scenarios
 
 ### An external API is slow or unavailable. What do you do?
 
@@ -2185,7 +1615,7 @@ POST + Idempotency-Key -> same result
 
 ---
 
-# 35. Senior Node.js Performance Scenarios 
+# Senior Node.js Performance Scenarios 
 
 ### An API normally takes 100 ms but suddenly takes 3 seconds. How do you debug it?
 
@@ -2245,7 +1675,7 @@ baseline -> optimize -> load test
 
 ---
 
-# 36. Senior Design & Trade-offs
+# Senior Design & Trade-offs
 
 ### Why not add more Node.js processes to solve every performance problem?
 
@@ -2281,7 +1711,7 @@ requirements -> runtime choice
 
 ---
 
-# 37. Senior Node.js Scenario Questions
+# Senior Node.js Scenario Questions
 
 ### How would you design a production-ready Node.js API?
 

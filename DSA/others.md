@@ -34,7 +34,7 @@
 
 ---
 
-## 1. Array (🔥 Most Important)
+## Array (🔥 Most Important)
 
 * Two Pointer
 * Sliding Window (Fixed & Variable)
@@ -46,7 +46,7 @@
 
 ---
 
-## 2. Dynamic Programming
+## Dynamic Programming
 
 * 1D DP (Fibonacci, Climbing Stairs)
 * 2D DP (Grid Problems)
@@ -58,7 +58,7 @@
 
 ---
 
-## 3. Recursion
+## Recursion
 
 * Backtracking
 * Subset / Subsequence
@@ -68,7 +68,7 @@
 
 ---
 
-## 4. String
+## String
 
 * Sliding Window on Strings
 * Pattern Matching
@@ -79,7 +79,7 @@
 
 ---
 
-## 5. Greedy
+## Greedy
 
 * Activity Selection
 * Interval Scheduling
@@ -89,7 +89,7 @@
 
 ---
 
-## 6. Stack
+## Stack
 
 * Monotonic Stack
 * Next Greater Element
@@ -99,7 +99,7 @@
 
 ---
 
-## 7. Trees
+## Trees
 
 * DFS (Inorder, Preorder, Postorder)
 * BFS (Level Order)
@@ -111,7 +111,7 @@
 
 ---
 
-## 8. Graphs
+## Graphs
 
 * BFS / DFS
 * Topological Sort
@@ -122,7 +122,7 @@
 
 ---
 
-## 9. Bit Manipulation
+## Bit Manipulation
 
 * XOR Tricks
 * Set / Clear / Toggle Bits
@@ -132,7 +132,7 @@
 
 ---
 
-## 10. Hash Map
+## Hash Map
 
 * Frequency Count
 * Prefix Sum + HashMap
@@ -142,7 +142,7 @@
 
 ---
 
-## 11. Sorting Algorithms
+## Sorting Algorithms
 
 * Quick Sort
 * Merge Sort
@@ -152,7 +152,7 @@
 
 ---
 
-## 12. Heap (Priority Queue)
+## Heap (Priority Queue)
 
 * Top K Elements
 * Kth Largest/Smallest
@@ -162,7 +162,7 @@
 
 ---
 
-## 13. Queue / Deque
+## Queue / Deque
 
 * Sliding Window Maximum (Deque)
 * BFS Queue Usage
@@ -171,7 +171,7 @@
 
 ---
 
-## 14. Range Structures
+## Range Structures
 
 * Segment Tree (Range Query)
 * Binary Indexed Tree (Fenwick Tree)
@@ -180,7 +180,7 @@
 
 ---
 
-## 15. Linked List
+## Linked List
 
 * Reverse Linked List
 * Cycle Detection (Floyd’s)
@@ -190,7 +190,7 @@
 
 ---
 
-## 16. Trie
+## Trie
 
 * Insert / Search / Prefix
 * Word Search

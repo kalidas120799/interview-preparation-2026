@@ -1,4 +1,4 @@
-## 1. What is the Event Loop?
+## What is the Event Loop?
 
 The Event Loop is the core mechanism that allows Node.js to perform non-blocking operations despite using a single JavaScript thread. It continuously checks for pending callbacks and executes them when the Call Stack becomes empty. This enables Node.js to handle thousands of concurrent requests efficiently.
 
@@ -16,7 +16,7 @@ Execute Callback
 
 ---
 
-## 2. Explain Event Loop Phases.
+## Explain Event Loop Phases.
 
 The Event Loop operates in multiple phases, each responsible for processing specific types of callbacks. Node.js moves through these phases repeatedly and executes queued callbacks in each phase before moving to the next.
 
@@ -40,7 +40,7 @@ setImmediate(() => console.log("Immediate"));
 
 ---
 
-## 3. What is the Call Stack?
+## What is the Call Stack?
 
 The Call Stack is a data structure used by the JavaScript engine to keep track of function execution. Whenever a function is called, it is pushed onto the stack, and when the function completes, it is popped off. JavaScript executes code synchronously using this Call Stack
 
@@ -70,7 +70,7 @@ console.log()
 
 ---
 
-## 4. What is the Callback Queue?
+## What is the Callback Queue?
 
 The Callback Queue (Task Queue) stores completed asynchronous callback functions waiting to be executed. When the Call Stack becomes empty, the Event Loop moves callbacks from the queue to the Call Stack. This mechanism enables asynchronous execution in Node.js.
 
@@ -90,7 +90,7 @@ Callback Queue → Call Stack → Execute
 
 ---
 
-## 5. What is the Microtask Queue?
+## What is the Microtask Queue?
 
 The Microtask Queue stores high-priority asynchronous operations such as Promise callbacks and `process.nextTick()`. Before processing the Callback Queue, Node.js always clears all pending Microtasks. This makes Microtasks execute sooner than normal callbacks.
 
@@ -104,7 +104,7 @@ Promise.resolve().then(() => {
 
 ---
 
-## 6. Difference Between process.nextTick() and setImmediate()?
+## Difference Between process.nextTick() and setImmediate()?
 
 `process.nextTick()` executes immediately after the current operation completes and before the Event Loop continues. `setImmediate()` executes during the Check phase of the Event Loop after I/O operations finish. Therefore, nextTick always gets higher priority.
 
@@ -133,7 +133,7 @@ Immediate
 
 ---
 
-## 7. Difference Between setTimeout() and setImmediate()?
+## Difference Between setTimeout() and setImmediate()?
 
 `setTimeout(fn, 0)` schedules execution in the Timers phase, while `setImmediate()` runs in the Check phase. Their execution order may vary depending on the context, especially inside or outside I/O operations. In I/O callbacks, setImmediate usually executes first.
 
@@ -148,7 +148,7 @@ setImmediate(() => {
 
 ---
 
-## 8. Execution Order of nextTick, Promise, setTimeout and setImmediate?
+## Execution Order of nextTick, Promise, setTimeout and setImmediate?
 
 Node.js executes tasks based on priority. First, synchronous code runs, then `process.nextTick()`, followed by Promise Microtasks, then Timer callbacks, and finally Immediate callbacks. Understanding this order is a very common interview question.
 **Example:**
@@ -187,7 +187,7 @@ Immediate
 
 ---
 
-## 9. How Does Node.js Handle Asynchronous Operations?
+## How Does Node.js Handle Asynchronous Operations?
 
 Node.js delegates asynchronous operations such as file access, network requests, DNS lookups, and timers to libuv and the operating system. Once the operation completes, the callback is placed into the appropriate queue and executed by the Event Loop. This allows Node.js to continue processing other requests without waiting
 
@@ -212,7 +212,7 @@ File Read
 
 ---
 
-## 10. Why is Node.js Considered Non-Blocking?
+## Why is Node.js Considered Non-Blocking?
 
 Node.js is considered non-blocking because it does not wait for I/O operations to finish before executing other code. Instead, operations are delegated to the system or thread pool, and the results are handled asynchronously. This allows a single thread to handle many concurrent connections efficiently.
 
@@ -228,7 +228,7 @@ console.log("Running Other Tasks");
 
 ---
 
-## 11. What are Event Loop Phases?
+## What are Event Loop Phases?
 
 The Event Loop repeatedly cycles through a series of phases. Each phase handles a specific type of callback and ensures asynchronous tasks are processed in the correct order. Understanding these phases helps explain the execution order of async operations.
 
@@ -250,7 +250,7 @@ Close Callbacks
 
 ---
 
-## 12. What Causes Event Loop Blocking?
+## What Causes Event Loop Blocking?
 
 Event Loop blocking occurs when long-running synchronous operations prevent the Event Loop from processing other callbacks. Heavy CPU-intensive computations, large loops, synchronous file operations, or complex calculations can block the Event Loop. When blocked, all incoming requests must wait.
 
@@ -270,7 +270,7 @@ No Requests Processed
 
 ---
 
-## 13. How Can You Avoid Blocking the Event Loop?
+## How Can You Avoid Blocking the Event Loop?
 
 Event Loop blocking can be avoided by using asynchronous APIs, Worker Threads, Streams, Clusters, and breaking large computations into smaller chunks. CPU-heavy tasks should be moved to Worker Threads or separate processes. This keeps the main thread responsive and improves application scalability.
 

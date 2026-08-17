@@ -1,4 +1,4 @@
-# 1. What is Authentication?
+# What is Authentication?
 
 Authentication is the process of verifying the identity of a user. It confirms that the user is who they claim to be using credentials such as a username, password, OTP, fingerprint, or token. Authentication happens before authorization in most applications.
 
@@ -13,7 +13,7 @@ Password: ********
 
 ---
 
-# 2. What is Authorization?
+# What is Authorization?
 
 Authorization is the process of determining what an authenticated user is allowed to access. It checks permissions, roles, and privileges after identity verification is completed. Authorization ensures users can only access resources they are permitted to use.
 
@@ -29,7 +29,7 @@ Role: Admin
 
 ---
 
-# 3. Difference Between Authentication and Authorization
+# Difference Between Authentication and Authorization
 
 Authentication verifies a user's identity, while authorization determines what actions that user can perform. Authentication occurs first, followed by authorization. Both are important components of application security.
 
@@ -42,7 +42,7 @@ Authentication verifies a user's identity, while authorization determines what a
 
 ---
 
-# 4. What is JWT?
+# What is JWT?
 
 JWT (JSON Web Token) is a compact and secure method for transmitting user information between client and server.
 
@@ -68,7 +68,7 @@ eyJhbGciOiJIUzI1Ni...
 
 ---
 
-# 5. How Does JWT Work?
+# How Does JWT Work?
 
 When a user logs in successfully, the server generates a JWT and sends it to the client.
 
@@ -94,7 +94,7 @@ Response
 
 ---
 
-# 6. What are JWT Claims?
+# What are JWT Claims?
 
 Claims are pieces of information stored inside the JWT payload. They contain details about the user and metadata about the token.
 
@@ -125,7 +125,7 @@ iss → Issuer
 
 ---
 
-# 7. What are Access Tokens?
+# What are Access Tokens?
 
 Access tokens are short-lived tokens used to access protected resources and APIs.
 
@@ -149,7 +149,7 @@ Authorization: Bearer access_token
 
 ---
 
-# 8. What are Refresh Tokens?
+# What are Refresh Tokens?
 
 Refresh tokens are long-lived tokens used to generate new access tokens without requiring the user to log in again.
 
@@ -171,7 +171,7 @@ Continue Access
 
 ---
 
-# 9. What is bcrypt?
+# What is bcrypt?
 
 bcrypt is a password hashing library used to securely store passwords.
 
@@ -189,7 +189,7 @@ const hash = await bcrypt.hash("password123", 10);
 
 ---
 
-# 10. Why Hash Passwords?
+# Why Hash Passwords?
 
 Passwords should never be stored in plain text because database leaks can expose user credentials.
 
@@ -208,7 +208,7 @@ $2b$10$3xj...
 
 ---
 
-# 11. What is Salting?
+# What is Salting?
 
 Salting adds a random value to a password before hashing it.
 
@@ -234,7 +234,7 @@ xk92jd...
 
 ---
 
-# 12. What is Passport.js?
+# What is Passport.js?
 
 Passport.js is a popular authentication middleware for Node.js applications.
 
@@ -267,7 +267,7 @@ passport-github2
 
 ---
 
-# 13. What is OAuth?
+# What is OAuth?
 
 OAuth is an authorization framework that allows users to grant limited access to an application without sharing their passwords.
 
@@ -293,7 +293,7 @@ Access Granted
 
 ---
 
-# 14. Difference Between JWT and Session
+# Difference Between JWT and Session
 
 JWT stores authentication data inside the token and is stateless, while Session authentication stores data on the server.
 
@@ -324,7 +324,7 @@ Client → Session ID
 
 ---
 
-# 15. How Do You Implement Role-Based Access Control (RBAC)?
+# How Do You Implement Role-Based Access Control (RBAC)?
 
 RBAC restricts access based on user roles such as Admin, Manager, or User.
 
