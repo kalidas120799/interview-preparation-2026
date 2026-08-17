@@ -17,6 +17,26 @@ function mostFrequentChar(str) {
 
 console.log(mostFrequentChar("ababca")) // "a"
 
+// https://leetcode.com/problems/first-unique-character-in-a-string
+function firstUniqChar(str) {
+    let map = new Map();
+    let min = -Infinity;
+    for (let value of str) {
+        map.set(value, (map.get(value) || 0) + 1);
+    }
+
+    for (let i = 0; i < str.length; i++) {
+        if (map.get(str[i]) === 1) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+console.log(firstUniqChar("loveleetcode")) // 2
+console.log(firstUniqChar("leetcode")) // 0
+
 function nonRepeated(str) {
     let strArr = str.split("");
     let map = new Map();
@@ -142,4 +162,25 @@ function groupByAnagram(arr) {
     return result
 }
 
-console.log(groupByAnagram(["eat", "tea", "tan", "ate", "nat", "bat"])) // [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
+console.log(groupByAnagram(["eat", "tea", "tan", "ate", "nat", "bat"])) // [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]] 
+
+// https://leetcode.com/problems/find-all-anagrams-in-a-string
+function findAnagrams(s, p) {
+    const result = [];
+
+    const target = p.split("").sort().join("");
+    const k = p.length;
+
+    for (let i = 0; i <= s.length - k; i++) {
+        const sub = s.substring(i, i + k);
+        const sorted = sub.split("").sort().join("");
+
+        if (sorted === target) {
+            result.push(i);
+        }
+    }
+
+    return result;
+}
+
+console.log(findAnagrams("cbaebabacd", "abc")) // [0,6]

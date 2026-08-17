@@ -12,3 +12,5 @@ console.log("kali.das#".replace(/[^a-zA-z]/g, "")) // kalidas
 for (let i = 0; i < "test".length; i++) {
     console.log(str[i]) // t;e;s;t
 }
+
+"cbaebabacd".substring(0,3) // cba
