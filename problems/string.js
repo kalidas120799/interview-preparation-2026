@@ -178,3 +178,59 @@ function isArmstrong(num) {
 console.log(isArmstrong(153)) // true
 console.log(isArmstrong(111)) // false
 console.log(isArmstrong(370)) // true
+
+function decodeStr(str) {
+    str = str.split("").reverse().join("");
+    let output = "";
+
+    for (let i = 0; i < str.length; i++) {
+        let item = str[i];
+
+        if (parseInt(item) || parseInt(item) == 0) {
+            output += (Number(item) - 3 + 10) % 10 //(0-3) % 10
+        } else {
+            output += String.fromCharCode("Z".charCodeAt() - (item.charCodeAt() - "A".charCodeAt()))
+        }
+    }
+
+    return output;
+}
+
+console.log(decodeStr("210ZYC")) // CBA789
+console.log(decodeStr("98765LOOVS")) // HELLO23456
+
+function romanToInt(s) {
+    const roman = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+    let result = 0;
+
+    for (let i = 0; i < s.length; i++) {
+        if (roman[s[i]] < roman[s[i + 1]]) {
+            result -= roman[s[i]];
+        } else {
+            result += roman[s[i]];
+        }
+    }
+
+    return result;
+}
+
+console.log(romanToInt("MCMIV")); // 1904
+console.log(romanToInt("LVIII")); // 58
+
+function intToRoman(num) {
+    const values = [[1000, "M"], [900, "CM"], [500, "D"], [400, "CD"], [100, "C"], [90, "XC"],
+    [50, "L"], [40, "XL"], [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
+    let result = "";
+
+    for (const [value, symbol] of values) {
+        while (num >= value) {
+            result += symbol;
+            num -= value;
+        }
+    }
+
+    return result;
+}
+
+console.log(intToRoman(1994)); // MCMXCIV
+console.log(intToRoman(3749)); // MMMDCCXLIX

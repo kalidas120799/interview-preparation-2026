@@ -78,3 +78,39 @@ function lengthOfLongestSubstring(s) {
 }
 
 console.log(lengthOfLongestSubstring("pwwkew")); // 3
+
+function minWindowBrute(s, t) {
+    let ans = "";
+
+    for (let i = 0; i < s.length; i++) {
+        const map = {};
+
+        for (let j = i; j < s.length; j++) {
+            map[s[j]] = (map[s[j]] || 0) + 1;
+
+            let valid = true;
+
+            for (const ch of t) {
+                if (!map[ch]) {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) {
+                const sub = s.slice(i, j + 1);
+
+                if (!ans || sub.length < ans.length) {
+                    ans = sub;
+                }
+
+                break; 
+            }
+        }
+    }
+
+    return ans;
+}
+
+console.log(minWindowBrute("aabbccddaaabbcc", "abc")) // abbc
+console.log(minWindowBrute("abbcccdddsasasd", "cdsa")) // cdddsa

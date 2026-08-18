@@ -123,3 +123,16 @@ function isEven(n) {
 
 console.log(isEven(2)); // true
 console.log(isEven(3)); // false
+
+// mirror
+console.log(9 - 0) // 0 -> 9
+console.log(9 - 1) // 1 -> 8
+
+console.log(31 - 11) // 11 -> 20 (31 - [20 + 11, 19 + 12])
+console.log((19 + 12) - 12) // 12 -> 19
+
+console.log(51 - 21) // 21 -> 30
+console.log((29 + 22) - 22) // 22 -> 29
+
+console.log(100 - 0) // 0 -> 100 (100 - [100 + 0, 99 + 1, 98 + 2])
+console.log((99 + 1) - 1) // 1 -> 99

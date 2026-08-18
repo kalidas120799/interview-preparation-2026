@@ -13,4 +13,12 @@ for (let i = 0; i < "test".length; i++) {
     console.log(str[i]) // t;e;s;t
 }
 
-"cbaebabacd".substring(0,3) // cba
+"cbaebabacd".substring(0, 3) // cba
+
+// mirror
+const Z = "Z".charCodeAt(), A = "A".charCodeAt();
+console.log(String.fromCharCode(Z - ("Z".charCodeAt() - A))) // Z -> A
+console.log(String.fromCharCode(Z - ("Y".charCodeAt() - A))) // Y -> B
+
+console.log(String.fromCharCode(Z - ("X".charCodeAt() - A))) // X -> C
+console.log(String.fromCharCode(Z - ("W".charCodeAt() - A))) // W -> d
